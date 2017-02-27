@@ -1,0 +1,14 @@
+classdef Object
+    properties
+        pose
+        point_cloud
+        name
+    end
+    methods
+        function obj = Object(object_pose, file_name, sampling_rate)
+            obj.pose = object_pose;
+            obj.getFromFile(file_name, sampling_rare
+        end
+        point_cloud = getFromFile(file_name)
+    end
+end
