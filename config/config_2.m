@@ -11,6 +11,7 @@ sur_limit = 0.2;
 blue = [0 0.4470 0.7410];
 red = [0.85 0.325 0.0980];
 green = [0.4660    0.6740    0.1880];
+orange = [1 0.5 0];
 
 
 %% Read data for object and surface

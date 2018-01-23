@@ -1,11 +1,10 @@
-%clear; close all; clc
+clear; close all; clc
 
 %addpath('utils')
 
 %% Set Parameters
-%config
+config_3
 figure
-
 
  
  %% Load object, surface and object-surface combination
@@ -18,19 +17,26 @@ support_surface = SupportSurface(surface_normal_vector, surface_point);
 hold on
 support_surface.plot(sur_limit)
 axis equal
-print(strcat('../../fig/matlab_', fig_name, '_1'),'-depsc');
+print(strcat('./fig/matlab_', fig_name, '_1'),'-depsc');
 
 disp(['Main: Projecting target object to support surface']);
 combination = Combination(target_object, support_surface);
 [combination.projection, combination.union] = combination.projectObjectToSurface;
-figure
-scatter3(combination.union(:, 1), ...
-         combination.union(:, 2), ...
-         combination.union(:, 3), ...
+%figure
+hold off
+scatter3(target_object.point_cloud(:, 1), ...
+         target_object.point_cloud(:, 2), ...
+         target_object.point_cloud(:, 3), ...
          '.', 'MarkerEdgeColor', blue)
+hold on
+scatter3(combination.projection(:, 1), ...
+         combination.projection(:, 2), ...
+         combination.projection(:, 3), ...
+         '.', 'MarkerEdgeColor', green)
+
 
 axis equal
-print(strcat('../../fig/matlab_', fig_name, '_2'),'-depsc');
+print(strcat('./fig/matlab_', fig_name, '_2'),'-depsc');
 
 disp(['Main: Calculating non convex points.']);
 combination.nonconvex_cloud = combination.getNonConvexPoints(dx, belongs_to_set_threshold);
@@ -41,16 +47,16 @@ scatter3(combination.nonconvex_cloud(:, 1), ...
          combination.nonconvex_cloud(:, 3), ...
          '.', 'MarkerEdgeColor', red)
 axis equal
-print(strcat('../../fig/matlab_', fig_name, '_3'),'-depsc');
+print(strcat('./fig/matlab_', fig_name, '_3'),'-depsc');
 
 disp(['Main: Sampling randomly non convex points by keeping ' sample_num_nonconvex_points]);
 combination.nonconvex_cloud = randomSample(combination.nonconvex_cloud, sample_num_nonconvex_points);
-hold on
-scatter3(combination.nonconvex_cloud(:, 1), ...
-         combination.nonconvex_cloud(:, 2), ...
-         combination.nonconvex_cloud(:, 3), ...
-         'MarkerEdgeColor', green, ...
-         'LineWidth', 2)
+% hold on
+% scatter3(combination.nonconvex_cloud(:, 1), ...
+%          combination.nonconvex_cloud(:, 2), ...
+%          combination.nonconvex_cloud(:, 3), ...
+%          'MarkerEdgeColor', green, ...
+%          'LineWidth', 2)
 
 
 disp(['Main: Calculating the feasible approaching directions.']);
@@ -67,10 +73,11 @@ hold on
 quiver3(directions(:, 1), directions(:, 2), directions(:, 3), ...
         directions(:, 4) - directions(:, 1), ...
         directions(:, 5) - directions(:, 2), ...
-        directions(:, 6) - directions(:, 3))
+        directions(:, 6) - directions(:, 3), ...
+        'color', orange)
     
 axis equal
-print(strcat('../../fig/matlab_', fig_name, '_4'),'-depsc');
+print(strcat('./fig/matlab_', fig_name, '_4'),'-depsc');
 
 %hold on
 % quiver3(zeros(size(directions,1), 1), ...
